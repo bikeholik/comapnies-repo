@@ -1,1 +1,1 @@
-# comapnies-repo
+# companies-repo
