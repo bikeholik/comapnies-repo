@@ -8,5 +8,5 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface OwnerRepository extends PagingAndSortingRepository<Owner, Long> {
-    List<Company> findByName(@Param("name") String name);
+    List<Company> findByNameLike(@Param("name") String name);
 }

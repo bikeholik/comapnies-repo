@@ -1,5 +1,6 @@
 package com.github.bikeholik.datarest;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -23,9 +24,6 @@ public class Owner {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "owners")
-    private List<Company> companies;
-
     public Long getId() {
         return id;
     }
@@ -36,9 +34,5 @@ public class Owner {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Company> getCompanies() {
-        return companies;
     }
 }

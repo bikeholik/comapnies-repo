@@ -6,6 +6,7 @@ import java.util.List;
 
 @Projection(name = "inlineOwner", types = { Company.class })
 interface InlineOwner {
+    Long getId();
     String getName();
     List<Owner> getOwners();
 }
