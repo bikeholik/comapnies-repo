@@ -43,12 +43,12 @@
 
         $scope.goToPage = function() {
             Company.query({
-                        page : $scope.currentPage - 1,
-                        size : $scope.pageSize
-                    }, function(response){
-                        $scope.companies = response._embedded.companies;
-                        $scope.totalItems =response.page.totalElements;
-                    });
+                 page : $scope.currentPage - 1,
+                 size : $scope.pageSize
+            }, function(response){
+                 $scope.companies = response._embedded.companies;
+                 $scope.totalItems =response.page.totalElements;
+            });
         }
 
         $scope.getCompanyDetails = function(company){
@@ -82,15 +82,15 @@
 
     angular.module('app', ['ngResource', 'ui.bootstrap']).run(function($rootScope, $timeout) {
         $rootScope.showAlert = function(text, clazz, scope){
-                    scope.alert = text;
-                    scope.alertClass = clazz;
-                }
+             scope.alert = text;
+             scope.alertClass = clazz;
+        }
 
-                $rootScope.clearAlert = function(delay, scope) {
-                    $timeout(function(){
-                        scope.alert = null;
-                    }, delay);
-                }
+        $rootScope.clearAlert = function(delay, scope) {
+             $timeout(function(){
+                  scope.alert = null;
+                }, delay);
+             }
 
     });
 
@@ -113,47 +113,49 @@
         $modalInstance.close(dirty);
       };
 
-        $scope.findOwners = function(name){
-                    return $http.get('/owners/search/findByNameLike', {
-                            params : {
-                                name : '%' + name + '%'
-                            }
-                        }).then(function(response) {
-                            if(angular.isDefined(response.data._embedded.owners)){
-                            return response.data._embedded.owners;
-                            } else {
-                            return [];
-                            }
-                        });
-                }
+      $scope.findOwners = function(name){
+         return $http.get('/owners/search/findByNameLike', {
+            params : {
+               name : '%' + name + '%'
+            }
+          }).then(function(response) {
+            if(angular.isDefined(response.data._embedded.owners)){
+               return response.data._embedded.owners;
+            } else {
+               return [];
+            }
+          });
+       }
 
-        $scope.updateCompany = function(){
-            Company.update({
+       $scope.updateCompany = function(){
+           Company.update({
                 companyId : company.id
-            }, {
+           }, {
                 name : company.name,
                 address: company.address,
                 city: company.city,
                 country: company.country,
                 email: company.email,
                 phoneNumber: company.phoneNumber
-            }, function(response){
+           }, function(response){
                 $rootScope.showAlert('Company updated', 'success', $scope);
                 dirty = true;
                 $rootScope.clearAlert(3000, $scope);
-            }, function(errorResponse){
+           }, function(errorResponse){
                 $rootScope.showAlert(errorResponse.errorCode, 'error', $scope);
-            })
+           })
         }
 
         var addOwner = function(ownerName, ownerUri){
-            Company.addOwner({companyId : $scope.company.id}, ownerUri.href, function(response){
-            $rootScope.showAlert(ownerName + ' added as owner', 'success', $scope);
-                                $scope.company.owners.push({name : ownerName});
-                                $rootScope.clearAlert(5000, $scope);
-                            }, function(errorResponse){
-                            $rootScope.showAlert(ownerName + ' not added. Error: ' + errorResponse.status , 'warning', $scope);
-                            })
+            Company.addOwner(
+                {companyId : $scope.company.id}, ownerUri.href,
+                function(response){
+                    $rootScope.showAlert(ownerName + ' added as owner', 'success', $scope);
+                    $scope.company.owners.push({name : ownerName});
+                    $rootScope.clearAlert(5000, $scope);
+                }, function(errorResponse){
+                    $rootScope.showAlert(ownerName + ' not added. Error: ' + errorResponse.status , 'warning', $scope);
+                })
         }
 
         $scope.addNewOwner = function(){
