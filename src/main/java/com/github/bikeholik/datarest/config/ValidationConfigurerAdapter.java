@@ -1,4 +1,4 @@
-package com.github.bikeholik.datarest;
+package com.github.bikeholik.datarest.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

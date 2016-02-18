@@ -1,4 +1,4 @@
-package com.github.bikeholik.datarest;
+package com.github.bikeholik.datarest.company;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;

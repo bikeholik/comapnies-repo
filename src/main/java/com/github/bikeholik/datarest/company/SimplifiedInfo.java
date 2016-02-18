@@ -1,6 +1,5 @@
-package com.github.bikeholik.datarest;
+package com.github.bikeholik.datarest.company;
 
-import com.github.bikeholik.datarest.Company;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 

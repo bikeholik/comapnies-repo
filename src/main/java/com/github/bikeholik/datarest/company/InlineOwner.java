@@ -1,7 +1,5 @@
-package com.github.bikeholik.datarest;
+package com.github.bikeholik.datarest.company;
 
-import com.github.bikeholik.datarest.Company;
-import com.github.bikeholik.datarest.Owner;
 import org.springframework.data.rest.core.config.Projection;
 
 import java.util.List;
@@ -10,5 +8,10 @@ import java.util.List;
 interface InlineOwner {
     Long getId();
     String getName();
+    String getAddress();
+    String getCity();
+    String getCountry();
+    String getEmail();
+    String getPhoneNumber();
     List<Owner> getOwners();
 }

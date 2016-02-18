@@ -10,8 +10,6 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/style.css"/>
-
 </head>
 
 <body>
@@ -25,7 +23,8 @@
     <div>
         <h4>Companies
                 <span class="badge" ng-click="showNewCompanyForm = !showNewCompanyForm">
-                    Add new <span class="glyphicon {{showNewCompanyForm ? 'glyphicon-minus' : 'glyphicon-plus'}}"></span>
+                    Add new <span
+                        class="glyphicon {{showNewCompanyForm ? 'glyphicon-minus' : 'glyphicon-plus'}}"></span>
                 </span>
         </h4>
 
@@ -54,19 +53,23 @@
                 <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone number"
                        ng-model="company.phoneNumber" ng-required="false">
             </div>
-            <button type="submit" class="btn btn-success" ng-click="createNewCompany()" ng-disabled="companyForm.$invalid">
+            <button type="submit" class="btn btn-success" ng-click="createNewCompany()"
+                    ng-disabled="companyForm.$invalid">
                 Create
             </button>
         </form>
-        <div ng-show="alert != null" style="margin-top: 10px; width: 50%">
-            <div class="alert alert-{{alertClass}}">{{alert}}</div>
+        <div style="margin-top: 10px; width: 50%" ng-show="alert != null"
+             class="alert alert-{{alertClass}} alert-dismissible">
+            <button type="button" class="close" aria-label="Close" ng-click="alert = null"><span
+                    aria-hidden="true">&times;</span></button>
+            {{alert}}
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped" ng-show="companies.length > 0">
             <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Info</th>
+                <th>Abbreviated information</th>
                 <th>&nbsp;</th>
             </tr>
             </thead>
@@ -77,19 +80,20 @@
                 </td>
                 <td>{{company.name}}</td>
                 <td>{{company.info}}</td>
-                <td><button ng-click="getCompanyDetails(company)"><span class="glyphicon glyphicon-info-sign"></span></button>
+                <td>
+                    <button ng-click="getCompanyDetails(company)"><span class="glyphicon glyphicon-info-sign"></span>
+                    </button>
                 </td>
             </tr>
             </tbody>
 
             <tfoot>
-            <!--<tr>-->
-            <!--<td colspan="3">-->
-            <!--<div class="text-right" style="margin-right: 10%">-->
-            <!--<button class="btn btn-primary" ng-click="goToPage(0)">More</button>-->
-            <!--</div>-->
-            <!--</td>-->
-            <!--</tr>-->
+            <tr ng-show="totalItems > pageSize">
+                <td colspan="4" align="center">
+                    <pagination total-items="totalItems" intems-per-page="pageSize" ng-model="currentPage"
+                                ng-change="goToPage()"></pagination>
+                </td>
+            </tr>
             </tfoot>
         </table>
     </div>
@@ -101,8 +105,6 @@
     </div>
 </footer>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-resource.min.js"></script>
 <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.0.min.js"></script>
@@ -110,14 +112,72 @@
 
 <script type="text/ng-template" id="companyDetails.html">
     <div class="modal-header">
-        <h3 class="modal-title">Company details</h3>
+        <h3 class="modal-title">Details of {{company.name}}</h3>
     </div>
     <div class="modal-body">
-        {{company.name}}
-        {{angular.toJson(company.owners, true)}}
+        <div ng-show="alert != null" class="alert alert-{{alertClass}} alert-dismissible">
+            <button type="button" class="close" aria-label="Close" ng-click="alert = null"><span
+                    aria-hidden="true">&times;</span></button>
+            {{alert}}
+        </div>
+        <form class="form" name="editCompanyForm">
+            <div class="form-group">
+                <label for="editName">Name: </label>
+                <input type="text" class="form-control" id="editName" placeholder="Company name"
+                       ng-model="company.name" ng-required="true">
+            </div>
+            <div class="form-group">
+                <label for="editAddress">Address: </label>
+                <input type="text" class="form-control" id="editAddress" placeholder="Address"
+                       ng-model="company.address" ng-required="true">
+            </div>
+            <div class="form-group">
+                <label for="editCity">City: </label>
+                <input type="text" class="form-control" id="editCity" placeholder="City"
+                       ng-model="company.city" ng-required="true">
+            </div>
+            <div class="form-group">
+                <label for="editCountry">Country: </label>
+                <input type="text" class="form-control" id="editCountry" placeholder="Country"
+                       ng-model="company.country" ng-required="true">
+            </div>
+            <div class="form-group">
+                <label for="editEmail">Email: </label>
+                <input type="email" class="form-control" id="editEmail" placeholder="Email"
+                       ng-model="company.email" ng-required="false">
+            </div>
+            <div class="form-group">
+                <label for="editPhoneNumber">Phone: </label>
+                <input type="tel" class="form-control" id="editPhoneNumber" placeholder="Phone number"
+                       ng-model="company.phoneNumber" ng-required="false">
+            </div>
+            <button type="submit" class="btn btn-success" ng-click="updateCompany()"
+                    ng-disabled="editCompanyForm.$invalid">
+                Update
+            </button>
+        </form>
+        <div style="margin-top: 5px"><b>Registered owners:</b>
+            <ul>
+                <li ng-repeat="owner in company.owners">{{owner.name}}</li>
+            </ul>
+            <form class="form-inline" name="ownerForm">
+                <div class="form-group">
+                    <label for="ownerName">New owner: </label>
+                    <input type="text" class="form-control" id="ownerName"
+                           placeholder="Owner name"
+                           autocomplete="off"
+                           ng-model="owner"
+                           typeahead-min-length="2"
+                           typeahead="owner as owner.name for owner in findOwners($viewValue)">
+                </div>
+                <button type="submit" class="btn btn-success" ng-click="addNewOwner()" ng-disabled="owner == null">
+                    Add
+                </button>
+            </form>
+        </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-primary" type="button" ng-click="ok()">Close</button>
     </div>
 </script>
 

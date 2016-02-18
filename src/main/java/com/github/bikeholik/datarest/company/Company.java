@@ -1,4 +1,4 @@
-package com.github.bikeholik.datarest;
+package com.github.bikeholik.datarest.company;
 
 import org.hibernate.validator.constraints.Email;
 
@@ -9,9 +9,9 @@ import java.util.List;
 @Entity
 public class Company {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Column(nullable = false)
     @NotNull
@@ -37,10 +37,11 @@ public class Company {
     private String phoneNumber;
 
     @ManyToMany
-	@JoinTable(
-			name="COMPANY_OWNERS",
-			joinColumns=@JoinColumn(name="COMPANY_ID", referencedColumnName="ID"),
-			inverseJoinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"))
+    @JoinTable(
+            name = "COMPANY_OWNERS",
+            joinColumns = @JoinColumn(name = "COMPANY_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "OWNER_ID", referencedColumnName = "ID"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"COMPANY_ID", "OWNER_ID"}))
     private List<Owner> owners;
 
     private Company(String name, String address, String city, String country, String email, String phoneNumber, List<Owner> owners) {

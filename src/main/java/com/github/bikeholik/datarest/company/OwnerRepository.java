@@ -1,4 +1,4 @@
-package com.github.bikeholik.datarest;
+package com.github.bikeholik.datarest.company;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
