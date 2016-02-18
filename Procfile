@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar  target/gs-accessing-data-rest-0.1.0.jar
+web: java -Dserver.port=$PORT -jar  target/spring-data-rest-sample-1.0.0.jar
